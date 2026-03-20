@@ -1,10 +1,13 @@
 name: Build UEDumper
+
 on:
   pull_request:
   push:
+
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -15,4 +18,12 @@ jobs:
           arch: x64
 
       - name: Build
-        run: msbuild
+        run: msbuild /p:Configuration=Release
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: UEDumper-build
+          path: |
+            **/Release/*.exe
+            **/Release/*.dll
